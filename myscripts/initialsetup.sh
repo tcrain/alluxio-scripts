@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-alluxio-git="https://github.com/tcrain/alluxio.git"
+alluxiogit="https://github.com/tcrain/alluxio.git"
 
 sudo yum -y install epel-release
 sudo yum -y update
