@@ -15,6 +15,7 @@ user=${4:-centos}
 # copy over the key file
 scp -o "StrictHostKeyChecking no" -i ${keyfile} ${keyfile} ${user}@${ip}:~/.ssh/id_rsa
 
+# copy over the properties file
 scp -o "StrictHostKeyChecking no" -i ${keyfile} alluxio-site.properties ${user}@${ip}:~/
 
 # do the initial setup
@@ -27,8 +28,7 @@ ssh -o "StrictHostKeyChecking no" -i ${keyfile} ${user}@${ip} 'bash -s' < ./perf
 scp -o "StrictHostKeyChecking no" -i ${keyfile} ./fuse-setup.sh ${user}@${ip}:~/
 
 # build alluxio
-cd ${path}
-./myscripts/alluxio-build.sh "$ip" . "$keyfile" "$user"
+./alluxio-build.sh "$ip" "$path" "$keyfile" "$user"
 
 ssh -o "StrictHostKeyChecking no" -i ${keyfile} ${user}@${ip} "
   cd alluxio
