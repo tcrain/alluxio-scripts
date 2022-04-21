@@ -5,7 +5,7 @@ if [ "$#" -ne 3 ]
 then
   echo "command is: fuse-setup.sh {enable-profile} {enable-debug} {run-type}"
   echo "0 = disable profile, debug 1 = enable"
-  echo "run-type: 0 = initial setup/write 1 = read"
+  echo "run-type: 0 = install, 1 = initial setup, 2 = write, 3 = read"
   exit
 fi
 
@@ -13,30 +13,25 @@ profile=$1
 debug=$2
 runType=$3
 
-if [ "$profile" -ne 0 ]
-then
-  masterOps="-XX:+PreserveFramePointer"
-  jobMasterOps="-XX:+PreserveFramePointer"
-  jobWorkerOps="-XX:+PreserveFramePointer"
-  workerOps="-XX:+PreserveFramePointer"
-  fuseOps="-XX:+PreserveFramePointer"
-fi
-
-if [ "$debug" -ne 0 ]
-then
-  masterOps+=" -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60001"
-  jobMasterOps+=" -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60002"
-  jobWorkerOps+=" -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60003"
-  workerOps+=" -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60004"
-  fuseOps+=" -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60005"
-fi
-
 cd ~/alluxio
 
 if [ "$runType" -eq 0 ]
 then
 
-  sudo yum -y install fuse fuse-devel
+  sudo yum -y install fuse fuse-devel fuse3
+
+elif [ "$runType" -eq 1 ]
+then
+
+  if [ "$profile" -ne 0 ]
+  then
+    fuseOps="-XX:+PreserveFramePointer"
+  fi
+
+  if [ "$debug" -ne 0 ]
+  then
+    fuseOps+=" -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60005"
+  fi
 
   # format journal and worker
   ./bin/alluxio-stop.sh all
@@ -50,7 +45,7 @@ then
   rm -rf ~/alluxio/underFSStorage
   mkdir -p ~/alluxio/underFSStorage
 
-  ALLUXIO_MASTER_ATTACH_OPTS="$masterOps" ALLUXIO_JOB_MASTER_ATTACH_OPTS="$jobMasterOps" ALLUXIO_JOB_WORKER_ATTACH_OPTS="$jobWorkerOps" ALLUXIO_WORKER_ATTACH_OPTS="$workerOps" ./bin/alluxio-start.sh local SudoMount
+  ~/alluxio-scripts/alluxio-start.sh "$profile" "$debug"
 
   ./bin/alluxio fs mkdir /fuseIOBench
   mkdir -p ~/fuseIOBench
@@ -58,15 +53,18 @@ then
   ALLUXIO_FUSE_ATTACH_OPTS="$fuseOps" ./integration/fuse/bin/alluxio-fuse mount ~/fuseIOBench /fuseIOBench
   ./integration/fuse/bin/alluxio-fuse stat
 
+elif [ "$runType" -eq 2 ]
+then
+
   echo Running: ./bin/alluxio runClass alluxio.stress.cli.fuse.FuseIOBench --operation Write --local-path ~/fuseIOBench --num-dirs 128 --num-files-per-dir 100 --file-size 1m --threads 32
   ./bin/alluxio runClass alluxio.stress.cli.fuse.FuseIOBench --operation Write --local-path ~/fuseIOBench --num-dirs 128 --num-files-per-dir 100 --file-size 1m --threads 32
 
-elif [ "$runType" -eq 1 ]
+elif [ "$runType" -eq 3 ]
 then
 
   echo Running: ./bin/alluxio runClass alluxio.stress.cli.fuse.FuseIOBench --operation LocalRead --local-path ~/fuseIOBench --num-dirs 128 --num-files-per-dir 100 --file-size 1m --buffer-size 512k --warmup 30s --duration 30s
   ./bin/alluxio runClass alluxio.stress.cli.fuse.FuseIOBench --operation LocalRead --local-path ~/fuseIOBench --num-dirs 128 --num-files-per-dir 100 --file-size 1m --buffer-size 512k --warmup 30s --duration 30s
 
 else
-  echo Invalid run type: $runType
+  echo Invalid run type: "$runType"
 fi

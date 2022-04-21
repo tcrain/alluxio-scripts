@@ -11,7 +11,7 @@ ip=$1
 keyfile=${2:-~/.ssh/aws-east.pem}
 user=${3:-centos}
 
-ssh -o "StrictHostKeyChecking no" -i ${keyfile} ${user}@${ip}  -t '
+ssh -o "StrictHostKeyChecking no" -i "${keyfile}" "${user}"@"${ip}"  -t '
 session=stats
 
 tmux kill-session -t $session
