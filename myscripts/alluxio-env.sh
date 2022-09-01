@@ -1,0 +1,5 @@
+ALLUXIO_USER_ATTACH_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=6009 -XX:+PreserveFramePointer"
+ALLUXIO_MASTER_ATTACH_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60001 -XX:+PreserveFramePointer"
+#ALLUXIO_MASTER_ATTACH_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60001 -XX:+PreserveFramePointer -agentpath:/home/centos/YourKit/bin/linux-x86-64/libyjpagent.so=delay=10000,listen=localhost -Xms11g -XX:+PrintGCDetails -XX:+PrintTenuringDistribution -XX:+PrintGCTimeStamps "
+ALLUXIO_WORKER_ATTACH_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60002 -XX:+PreserveFramePointer"
+ALLUXIO_FUSE_ATTACH_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60003 -XX:+PreserveFramePointer"

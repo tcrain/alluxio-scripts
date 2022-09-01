@@ -1,0 +1,100 @@
+#
+# The Alluxio Open Foundation licenses this work under the Apache License, version 2.0
+# (the "License"). You may not use this work except in compliance with the License, which is
+# available at www.apache.org/licenses/LICENSE-2.0
+#
+# This software is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied, as more fully set forth in the License.
+#
+# See the NOTICE file distributed with this work for information regarding copyright ownership.
+#
+
+# Site specific configuration properties for Alluxio
+# Details about all configuration properties https://docs.alluxio.io/os/user/stable/en/reference/Properties-List.html
+
+# Common properties
+alluxio.master.hostname=localhost
+# alluxio.master.mount.table.root.ufs=${alluxio.work.dir}/underFSStorage
+
+# Cross cluster properties
+alluxio.master.cross.cluster.rpc.addresses="127.0.0.1:19998"
+alluxio.master.cross.cluster.enable=false
+alluxio.master.cross.cluster.id=cluster1
+
+# Security properties
+# alluxio.security.authorization.permission.enabled=true
+# alluxio.security.authentication.type=SIMPLE
+
+# make journal snapshots more often
+#alluxio.master.journal.checkpoint.period.entries=100000
+#alluxio.master.journal.request.info.timeout=3000
+#alluxio.master.journal.request.data.timeout=3000
+
+# Worker properties
+#alluxio.worker.tieredstore.levels=1
+#alluxio.worker.tieredstore.level0.alias=MEM
+#alluxio.worker.tieredstore.level0.dirs.path=/mnt/ramdisk,/opt/nvme
+#alluxio.worker.tieredstore.level0.dirs.quota=180G,2500G
+# User properties
+# alluxio.user.file.readtype.default=CACHE_PROMOTE
+alluxio.user.file.writetype.default=THROUGH
+#alluxio.security.authorization.permission.umask=000
+
+alluxio.master.journal.type=EMBEDDED
+alluxio.master.embedded.journal.addresses=localhost:19200
+#alluxio.master.journal.folder=/opt/journal/
+
+#alluxio.master.journal.type=UFS
+#alluxio.zookeeper.enabled=true
+#alluxio.zookeeper.address=zk-cluster
+
+# RocksDB configuration
+alluxio.master.metastore=ROCKS
+#alluxio.master.metastore.dir=/opt/rocksdb/
+
+#alluxio.master.mount.table.root.ufs=s3://alluxiotyler7/
+#alluxio.master.network.max.inbound.message.size=128MB
+# Set the alluxio backup path to a location that is not the same as the journal
+# alluxio.master.backup.directory=<path-to-backup>
+alluxio.master.daily.backup.enabled=true
+alluxio.master.daily.backup.files.retained=3
+alluxio.master.daily.backup.time=02:00
+alluxio.master.backup.delegation.enabled=true
+
+alluxio.underfs.s3.inherit.acl=false
+alluxio.underfs.s3.disable.dns.buckets=true
+# Security properties
+# alluxio.security.authorization.permission.enabled=true
+alluxio.security.authentication.type=SIMPLE
+#alluxio.master.security.impersonation.yarn.users=*
+#alluxio.master.security.impersonation.hive.users=*
+#alluxio.master.security.impersonation.hdfs.users=*
+#alluxio.master.security.impersonation.jenkins.users=*
+#alluxio.user.file.delete.unchecked=true
+
+#alluxio.master.security.impersonation.presto.users=*
+alluxio.underfs.s3.default.mode=0777
+
+#alluxio.user.file.persist.on.rename=true
+
+#alluxio.license.file=/etc/alluxio/conf/license.json
+#alluxio.worker.network.block.reader.threads.max=4096
+#alluxio.worker.network.block.writer.threads.max=2048
+#alluxio.underfs.s3.admin.threads.max=100
+#alluxio.underfs.s3.threads.max=360
+#alluxio.underfs.s3.upload.threads.max=100
+#alluxio.underfs.object.store.service.threads=200
+#alluxio.job.master.client.threads=2048
+#alluxio.job.worker.threadpool.size=40
+#alluxio.master.ufs.active.sync.thread.pool.size=64
+#alluxio.user.file.replication.durable=1
+#alluxio.user.ufs.block.read.location.policy=alluxio.client.block.policy.DeterministicHashPolicy
+#alluxio.user.ufs.block.read.location.policy.deterministic.hash.shards=3
+
+#alluxio.master.backup.state.lock.interrupt.cycle.enabled=false
+#alluxio.policy.scan.interval=5m
+
+#alluxio.user.skip.authority.check=true
+alluxio.master.metadata.sync.instrument.executor=true
+
+#alluxio.master.worker.register.stream.response.timeout=600000ms

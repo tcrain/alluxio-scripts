@@ -6,7 +6,7 @@ then
   echo "command is: hdfs-setup.sh {enable-profile} {enable-debug} {run-type} {mount-path} {enable-active-sync}"
   echo "0 = disable profile, debug 1 = enable"
   echo "run-type: 0 = install, 1 = initial setup"
-  exit
+  exit 1
 fi
 
 profile=$1

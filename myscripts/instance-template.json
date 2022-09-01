@@ -1,0 +1,37 @@
+{
+  "BlockDeviceMappings": [
+    {
+      "DeviceName": "/dev/sda1",
+      "Ebs": {
+        "DeleteOnTermination": true,
+        "VolumeSize": 0
+      }
+    }
+  ],
+  "ImageId": "",
+  "InstanceType": "",
+  "KeyName": "",
+  "MaxCount": 0,
+  "MinCount": 0,
+  "Placement": {
+    "AvailabilityZone": ""
+  },
+  "SecurityGroupIds": [""],
+  "InstanceInitiatedShutdownBehavior": "terminate",
+  "TagSpecifications": [
+    {
+      "ResourceType": "instance",
+      "Tags": [
+        {
+          "Key": "type", "Value": ""
+        },
+        {
+          "Key": "clusterId", "Value": ""
+        }
+      ]
+    }
+  ],
+  "InstanceMarketOptions": {
+    "MarketType": "spot"
+  }
+}

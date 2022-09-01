@@ -5,7 +5,7 @@ if [ "$#" -lt 2 ]
 then
   echo "command is: alluxio-start.sh {enable-profile} {enable-debug} {format}"
   echo "0 = disable profile/debug 1 = enable"
-  exit
+  exit 1
 fi
 
 profile=$1
@@ -39,3 +39,4 @@ ALLUXIO_MASTER_ATTACH_OPTS="$masterOps" ALLUXIO_JOB_MASTER_ATTACH_OPTS="$jobMast
 
 ~/alluxio/bin/alluxio fsadmin report
 ~/alluxio/bin/alluxio fsadmin report ufs
+~/alluxio/bin/alluxio fsadmin journal quorum info -domain MASTER

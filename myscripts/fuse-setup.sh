@@ -6,7 +6,7 @@ then
   echo "command is: fuse-setup.sh {enable-profile} {enable-debug} {run-type}"
   echo "0 = disable profile, debug 1 = enable"
   echo "run-type: 0 = install, 1 = initial setup, 2 = write, 3 = read"
-  exit
+  exit 1
 fi
 
 profile=$1

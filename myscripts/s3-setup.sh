@@ -6,7 +6,7 @@ then
   echo "command is: s3-setup.sh {enable-profile} {enable-debug} {run-type} {bucket-name}"
   echo "0 = disable profile, debug 1 = enable"
   echo "run-type: 0 = initial setup"
-  exit
+  exit 1
 fi
 
 profile=$1

@@ -4,7 +4,7 @@ set -e
 if [ $# -lt 1 ]
 then
   echo "command is: attach-stats.sh {ip} {key-file} {user}"
-  exit
+  exit 1
 fi
 
 ip=$1
