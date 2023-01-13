@@ -1,12 +1,13 @@
 #!/bin/bash
 set -e
 
-alluxiogit="https://github.com/tcrain/alluxio.git"
+# alluxiogit="https://github.com/tcrain/enterprise.git"
+alluxiogit="git@github.com:tcrain/alluxio.git"
 alluxiobranch=$BRANCH
 
 sudo yum -y install epel-release
 sudo yum -y update
-sudo yum -y install git libevent-devel ncurses-devel gcc make bison pkg-config java-1.8.0-openjdk-devel wget htop iftop emacs
+sudo yum -y install git libevent-devel ncurses-devel gcc make bison pkg-config java-1.8.0-openjdk-devel java-11-openjdk-devel wget htop iftop emacs
 sudo yum -y install perf gawk cmake
 sudo yum -y group install "Development Tools"
 
@@ -48,16 +49,19 @@ echo kernel.perf_event_paranoid=1 | sudo tee -a /usr/lib/sysctl.d/01-system.conf
 sudo sysctl -p /usr/lib/sysctl.d/01-system.conf
 
 
-# https://download.yourkit.com/yjp/2022.3/YourKit-JavaProfiler-2022.3-b107.zip
-yourKitDate="2022.3"
-yourKitVersion="b107"
+# get the latest version of your-kit
+# eg. https://download.yourkit.com/yjp/2022.9/YourKit-JavaProfiler-2022.9-b177.zip
+yourKitDate=$(curl https://www.yourkit.com/download/ | grep -m 1 zip | grep href | cut -d '-' -f3)
+yourKitVersion=$(curl https://www.yourkit.com/download/ | grep -m 1 zip | grep href | cut -d '-' -f4 | cut -c 1-4)
 rm -rf YourKit
 wget https://download.yourkit.com/yjp/${yourKitDate}/YourKit-JavaProfiler-${yourKitDate}-${yourKitVersion}.zip
 unzip -o YourKit-JavaProfiler-${yourKitDate}-${yourKitVersion}.zip
 mv YourKit-JavaProfiler-${yourKitDate} YourKit
 
+echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+chmod 600 ~/.ssh/config
 rm -rf alluxio
-git clone "${alluxiogit}"
+git clone "${alluxiogit}" ./alluxio
 cd alluxio
 
 git checkout "$alluxiobranch"

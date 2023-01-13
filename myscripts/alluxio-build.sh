@@ -56,15 +56,27 @@ if [ "$buildAlluxio" -ne 0 ]
 then
   ssh -o "StrictHostKeyChecking no" -i "${keyfile}" "${user}"@"${ip}"  -t "
   cd alluxio
-  echo Building: mvn -U -T 2C clean install -PhdfsActiveSync -Pufs-hadoop-${hadoopVersionId} -Dhadoop.version=${hadoopVersion} -DskipTests -Dmaven.javadoc.skip=true -Dfindbugs.skip=true -Dcheckstyle.skip=true -Dlicense.skip=true
-  mvn -T 2C clean install -PhdfsActiveSync -Pufs-hadoop-${hadoopVersionId} -Dhadoop.version=${hadoopVersion} -DskipTests -Dmaven.javadoc.skip=true -Dfindbugs.skip=true -Dcheckstyle.skip=true -Dlicense.skip=true
+  echo Building: mvn -U -T 2C clean install -PhdfsActiveSync -Pufs-hadoop-${hadoopVersionId} -Dhadoop.version=${hadoopVersion} -DskipTests -Dmaven.javadoc.skip=true -Dfindbugs.skip=true -Dcheckstyle.skip=true -Dlicense.skip=true -Dannotation.skip=true
+  mvn -T 2C clean install -PhdfsActiveSync -Pufs-hadoop-${hadoopVersionId} -Dhadoop.version=${hadoopVersion} -DskipTests -Dmaven.javadoc.skip=true -Dfindbugs.skip=true -Dcheckstyle.skip=true -Dlicense.skip=true -Dannotation.skip=true
   "
+else
+  echo Running: rsync -ave "ssh -i ${keyfile}" -z ./assembly/server/target "${user}"@"${ip}":~/alluxio/assembly/server/
+  rsync -ave "ssh -i ${keyfile}" -z ./assembly/server/target "${user}"@"${ip}":~/alluxio/assembly/server/
+
+  echo Running: rsync -ave "ssh -i ${keyfile}" -z ./assembly/client/target "${user}"@"${ip}":~/alluxio/assembly/client/
+  rsync -ave "ssh -i ${keyfile}" -z ./assembly/client/target "${user}"@"${ip}":~/alluxio/assembly/client/
+
+  # echo Running: rsync -ave "ssh -i ${keyfile}" -z ./lib/alluxio-integration-tools-validation-2.9.0-SNAPSHOT.jar "${user}"@"${ip}":~/alluxio/lib/
+  # rsync -ave "ssh -i ${keyfile}" -z ./lib/alluxio-integration-tools-validation-2.9.0-SNAPSHOT.jar "${user}"@"${ip}":~/alluxio/lib/
+
+  echo Running: rsync -ave "ssh -i ${keyfile}" --exclude="alluxio-underfs-wasb-2.9.0-SNAPSHOT.jar" --exclude="alluxio-underfs-ozone-2.9.0-SNAPSHOT.jar" --exclude="alluxio-underfs-gcs-2.9.0-SNAPSHOT.jar" --exclude "alluxio-underfs-cosn-2.9.0-SNAPSHOT.jar" --exclude "alluxio-underfs-cephfs-hadoop-2.9.0-SNAPSHOT.jar" --exclude "alluxio-integration-tools-hms-2.9.0-SNAPSHOT.jar" -z ./lib "${user}"@"${ip}":~/alluxio/
+  rsync -ave "ssh -i ${keyfile}" --exclude="alluxio-underfs-wasb-2.9.0-SNAPSHOT.jar" --exclude="alluxio-underfs-ozone-2.9.0-SNAPSHOT.jar" --exclude="alluxio-underfs-gcs-2.9.0-SNAPSHOT.jar" --exclude "alluxio-underfs-cosn-2.9.0-SNAPSHOT.jar" --exclude "alluxio-underfs-cephfs-hadoop-2.9.0-SNAPSHOT.jar" --exclude "alluxio-integration-tools-hms-2.9.0-SNAPSHOT.jar" -z ./lib "${user}"@"${ip}":~/alluxio/
 fi
 
 if [ "$buildBenches" -ne 0 ]
 then
     ssh -o "StrictHostKeyChecking no" -i "${keyfile}" "${user}"@"${ip}"  -t "
     cd alluxio
-    mvn -DskipTests package -pl microbench -Dcheckstyle.skip=true -Dlicense.skip=true -Dfindbugs.skip=true
+    mvn -DskipTests package -pl microbench -Dcheckstyle.skip=true -Dlicense.skip=true -Dfindbugs.skip=true -Dannotation.skip=true
     "
 fi

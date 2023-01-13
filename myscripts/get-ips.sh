@@ -28,3 +28,8 @@ echo EC2 other Public IPs
 ./aws-ips.sh other PublicIpAddress "${clusterId}"
 echo EC2 other Private IPs
 ./aws-ips.sh other PrivateIpAddress "${clusterId}"
+echo
+echo EC2 hdfs Public IPs
+./aws-ips.sh hdfs PublicIpAddress "${clusterId}"
+echo EC2 hdfs Private IPs
+./aws-ips.sh hdfs PrivateIpAddress "${clusterId}"

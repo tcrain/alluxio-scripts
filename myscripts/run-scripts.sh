@@ -29,14 +29,19 @@ fi
 echo Initial setup
 ssh -o "StrictHostKeyChecking no" -i "${keyfile}" "${user}"@"${ip}" 'BRANCH='"${branch}"' bash -s' < "${scriptDir}"/initialsetup.sh
 
+# install hdfs
+echo HDFS install
+ssh -o "StrictHostKeyChecking no" -i "${keyfile}" "${user}"@"${ip}" 'bash -s' < "${scriptDir}"/hdfs/hdfs-install.sh
+
 # install perf stuff
 echo Perf setup
 ssh -o "StrictHostKeyChecking no" -i "${keyfile}" "${user}"@"${ip}" 'bash -s' < "${scriptDir}"/perf.sh
 
 # build alluxio
-echo Building alluxio
+buildAlluxio=1
+echo Building alluxio with build option: $buildAlluxio
 cd "${path}"
-"${scriptDir}"/alluxio-build.sh "$ip" . 1 0 1 "$keyfile" "$user"
+"${scriptDir}"/alluxio-build.sh "$ip" . "${buildAlluxio}" 0 1 "$keyfile" "$user"
 
 # install s3 stuff
 echo S3 setup

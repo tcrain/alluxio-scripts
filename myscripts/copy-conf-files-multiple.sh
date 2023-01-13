@@ -2,15 +2,16 @@
 set -e
 
 
-if [ $# -gt 3 ]
+if [ $# -gt 4 ]
 then
-  echo "command is: copy-conf-files-multiple.sh {clusterId} {key-file} {user}"
+  echo "command is: copy-conf-files-multiple.sh {clusterId} {startLocalCrossClusterMaster} {key-file} {user}"
   exit
 fi
 
 clusterId=${1:-c1}
-keyfile=${2:-~/.ssh/aws-east.pem}
-user=${3:-centos}
+startLocalCrossClusterMaster=${2:-0}
+keyfile=${3:-~/.ssh/aws-east.pem}
+user=${4:-centos}
 
 siteProperties="alluxio-site.properties.cluster"
 alluxioEnv="alluxio-env.sh.cluster"
@@ -75,6 +76,12 @@ do
 done
 addrString=${addrString%?}
 
+startLocalCCMaster="false"
+if [ "$startLocalCrossClusterMaster" -ne 0 ]
+then
+  startLocalCCMaster="true"
+fi
+
 echo Updating ips in alluxio-site.properties
 for (( j=0; j<${#ips[@]}; j++ ));
 do
@@ -82,5 +89,6 @@ do
     sed -i \"s/alluxio.master.hostname=.*/alluxio.master.hostname=${privateIps[$j]}/\" alluxio/conf/alluxio-site.properties
     sed -i \"s/alluxio.master.embedded.journal.addresses=.*/${addrString}/\" alluxio/conf/alluxio-site.properties
     sed -i \"s/alluxio.master.cross.cluster.id=.*/alluxio.master.cross.cluster.id=${clusterId}/\" alluxio/conf/alluxio-site.properties
+    sed -i \"s/alluxio.cross.cluster.master.start.local=.*/alluxio.cross.cluster.master.start.local=${startLocalCCMaster}/\" alluxio/conf/alluxio-site.properties
   "
 done
