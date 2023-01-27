@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 ALLUXIO_USER_ATTACH_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=6009"
-ALLUXIO_MASTER_ATTACH_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60001 -agentpath:/home/centos/YourKit/bin/linux-x86-64/libyjpagent.so=delay=10000,listen=localhost"
+ALLUXIO_MASTER_ATTACH_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60001"
+#ALLUXIO_MASTER_ATTACH_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60001 -agentpath:/home/centos/YourKit/bin/linux-x86-64/libyjpagent.so=delay=10000,listen=localhost"
 #ALLUXIO_MASTER_ATTACH_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60001 -agentpath:/home/centos/YourKit/bin/linux-x86-64/libyjpagent.so=delay=10000,listen=localhost -Xms24g -XX:+PrintGCDetails -XX:+PrintTenuringDistribution -XX:+PrintGCTimeStamps -Xloggc:/home/centos/alluxio/logs/gc.log"
 #ALLUXIO_MASTER_ATTACH_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60001 -agentpath:/home/centos/YourKit/bin/linux-x86-64/libyjpagent.so=delay=10000,listen=localhost -Xms24g "
 ALLUXIO_WORKER_ATTACH_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=60002"

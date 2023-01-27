@@ -7,7 +7,7 @@ alluxiobranch=$BRANCH
 
 sudo yum -y install epel-release
 sudo yum -y update
-sudo yum -y install git libevent-devel ncurses-devel gcc make bison pkg-config java-1.8.0-openjdk-devel java-11-openjdk-devel wget htop iftop emacs
+sudo yum -y install git libevent-devel ncurses-devel gcc make bison pkg-config java-1.8.0-openjdk-devel java-11-openjdk-devel wget htop iftop emacs lsof
 sudo yum -y install perf gawk cmake
 sudo yum -y group install "Development Tools"
 

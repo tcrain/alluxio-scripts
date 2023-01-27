@@ -17,7 +17,13 @@ alluxio.master.hostname=localhost
 # alluxio.master.mount.table.root.ufs=${alluxio.work.dir}/underFSStorage
 
 #alluxio.master.metastore.inode.cache.max.size=0
-alluxio.master.lock.pool.type=POOL
+# alluxio.master.lock.pool.type=POOL
+
+# alluxio.master.rpc.executor.core.pool.size=50
+# alluxio.master.rpc.executor.max.pool.size=100
+# alluxio.user.network.rpc.max.connections=1
+
+# alluxio.security.authentication.type=NOSASL
 
 # Cross cluster properties
 # 19998 default port for embedded master
@@ -29,8 +35,6 @@ alluxio.master.lock.pool.type=POOL
 # alluxio.cross.cluster.master.standalone=false
 # alluxio.cross.cluster.master.start.local=false
 # alluxio.master.cross.cluster.rpc.addresses="127.0.0.1:19998"
-
-alluxio.user.network.rpc.max.connections=1
 
 # Security properties
 # alluxio.security.authorization.permission.enabled=true

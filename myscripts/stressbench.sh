@@ -8,9 +8,13 @@
 
 ~/alluxio/bin/alluxio runClass alluxio.stress.cli.StressMasterBench --operation CreateFile --warmup 5s --duration 10s --target-throughput 1000000 --fixed-count 10
 
+~/alluxio/bin/alluxio runClass alluxio.stress.cli.StressMasterBench --operation CreateFile --warmup 5s --duration 10000s --target-throughput 1000000 --fixed-count 2000000 --threads 300
+
 ~/alluxio/bin/alluxio runClass alluxio.stress.cli.StressMasterBench --operation ListDir --warmup 5s --duration 10s --target-throughput 1000000 --fixed-count 10
 
 ~/alluxio/bin/alluxio runClass alluxio.stress.cli.StressMasterBench --operation GetFileStatus --warmup 5s --duration 10s --target-throughput 1000000 --fixed-count 10000 --threads 10
+
+~/alluxio/bin/alluxio runClass alluxio.stress.cli.StressMasterBench --operation GetFileStatus --warmup 5s --duration 10s --target-throughput 1000000 --fixed-count 2000000 --threads 300
 
 mvn clean verify -Dcheckstyle.skip=true -Dlicense.skip -Dfindbugs.skip=true -DskipTests
 
